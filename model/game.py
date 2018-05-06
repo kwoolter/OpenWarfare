@@ -3,6 +3,7 @@ import os
 import random
 import model.character as OWcharacter
 import model.weapons as OWweapons
+import model.maps as OWMaps
 import utils.trpg as trpg
 
 class OWGame():
@@ -12,12 +13,14 @@ class OWGame():
     def __init__(self):
         self.characters = []
         self._weapons = None
+        self._maps = None
 
     def initialise(self):
         print("Initialising Game...")
 
         self.load_weapons("weapons.csv")
         self.load_characters()
+        self.load_maps()
 
     def load_characters(self):
 
@@ -52,8 +55,16 @@ class OWGame():
             for stat in stats:
                 print("\t{0}={1}".format(stat.name, stat.value))
 
+    def load_maps(self):
+        print("Loading maps...")
+        self._maps = OWMaps.OWMapFactory()
+        self._maps.initialise()
 
     def print(self):
         print("Printing Game...")
+        print("Characters")
         for character in self.characters:
             print(character)
+
+        print("Maps")
+        self._maps.print()
