@@ -26,7 +26,6 @@ class OWMap():
         for i in range(2):
             self._layers.append([])
 
-
     def add_object(self, new_object : OWMapObject, layer_id : int = ENVIRONMENT_LAYER):
 
         self._layers[layer_id].append(new_object)
@@ -37,6 +36,20 @@ class OWMap():
             for x in range(self.width):
                 new_object = OWMapObject(floor_object_type, x, y)
                 self.add_object(new_object, OWMap.FLOOR_LAYER)
+
+    def generate(self):
+
+        floors = (OWobjects.BRICK, OWobjects.GRASS, OWobjects.WATER)
+        self.initialise_floor(random.choice(floors))
+
+        for i in range(random.randint(10,15)):
+            self.add_object(OWMapObject(OWobjects.PLAYER,
+                                           random.randint(0,self.width-1),
+                                           random.randint(0,self.height-1)))
+
+    def place_object(self):
+        pass
+
 
     def layer_to_array(self, layer_id : int = ENVIRONMENT_LAYER):
 
@@ -73,20 +86,16 @@ class OWMapFactory():
         new_map = OWMap("The Field", 20, 20)
         new_map.initialise()
         new_map.initialise_floor(OWobjects.GRASS)
-        for i in range(5):
+        for i in range(10):
             new_map.add_object(OWMapObject(OWobjects.PLAYER,
                                            random.randint(0,new_map.width-1),
                                            random.randint(0,new_map.height-1)))
 
         self._maps[new_map.name] = new_map
 
-        new_map = OWMap("The Town", 20, 20)
+        new_map = OWMap("The Town", 30, 30)
         new_map.initialise()
-        new_map.initialise_floor(OWobjects.BRICK)
-        for i in range(5):
-            new_map.add_object(OWMapObject(OWobjects.PLAYER,
-                                           random.randint(0,new_map.width-1),
-                                           random.randint(0,new_map.height-1)))
+        new_map.generate()
 
         self._maps[new_map.name] = new_map
 
