@@ -48,12 +48,15 @@ class OWMapView():
         print(header2)
 
         for y in range(len(map_array)):
-            row = "  "
+            row = "  " + OWObjectColours.colour_codes(fg=OWObjectColours.BLACK, bg=OWObjectColours.GREEN)
             for x in range(len(map_array[y])):
                 if map_array[x][y] is not None:
                     row += "*"
                 else:
-                    row += "_"
+                    row += " "
+
+            row +=  OWObjectColours.colour_codes(bg=OWObjectColours.WHITE)
+
             print(row)
 
         print(header2)
