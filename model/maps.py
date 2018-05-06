@@ -41,11 +41,12 @@ class OWMap():
 
         floors = (OWobjects.BRICK, OWobjects.GRASS, OWobjects.WATER)
         self.initialise_floor(random.choice(floors))
-
-        for i in range(random.randint(10,15)):
-            self.add_object(OWMapObject(OWobjects.PLAYER,
-                                           random.randint(0,self.width-1),
-                                           random.randint(0,self.height-1)))
+        objs = (OWobjects.PLAYER, OWobjects.HOUSE, OWobjects.TREE)
+        for obj_type in objs:
+            for i in range(random.randint(10,15)):
+                self.add_object(OWMapObject(obj_type,
+                                               random.randint(0,self.width-1),
+                                               random.randint(0,self.height-1)))
 
     def place_object(self):
         pass
@@ -83,14 +84,14 @@ class OWMapFactory():
 
         self._maps = {}
 
-        new_map = OWMap("The Field", 20, 20)
+        new_map = OWMap("The Field", 30, 30)
         new_map.initialise()
         new_map.initialise_floor(OWobjects.GRASS)
         for i in range(10):
             new_map.add_object(OWMapObject(OWobjects.PLAYER,
                                            random.randint(0,new_map.width-1),
                                            random.randint(0,new_map.height-1)))
-
+        new_map.generate()
         self._maps[new_map.name] = new_map
 
         new_map = OWMap("The Town", 30, 30)
