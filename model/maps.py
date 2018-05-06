@@ -1,5 +1,6 @@
 import logging
 import model.objects as OWobjects
+import random
 
 class OWMapObject():
     def __init__(self, name : str, x : int, y : int):
@@ -37,6 +38,18 @@ class OWMap():
                 new_object = OWMapObject(floor_object_type, x, y)
                 self.add_object(new_object, OWMap.FLOOR_LAYER)
 
+    def layer_to_array(self, layer_id : int = ENVIRONMENT_LAYER):
+
+        layer = self._layers[layer_id]
+
+        map_array = [[None for x in range(self.height)] for x in range(self.width)]
+
+        for object in layer:
+            map_array[object.x][object.y] = object
+
+        return map_array
+
+
     def print(self):
         if self._layers is None:
             raise Exception("No layers defined for map {0}".format(self.name))
@@ -60,14 +73,28 @@ class OWMapFactory():
         new_map = OWMap("The Field", 20, 20)
         new_map.initialise()
         new_map.initialise_floor(OWobjects.GRASS)
+        for i in range(5):
+            new_map.add_object(OWMapObject(OWobjects.PLAYER,
+                                           random.randint(0,new_map.width-1),
+                                           random.randint(0,new_map.height-1)))
 
         self._maps[new_map.name] = new_map
 
         new_map = OWMap("The Town", 20, 20)
         new_map.initialise()
         new_map.initialise_floor(OWobjects.BRICK)
+        for i in range(5):
+            new_map.add_object(OWMapObject(OWobjects.PLAYER,
+                                           random.randint(0,new_map.width-1),
+                                           random.randint(0,new_map.height-1)))
 
         self._maps[new_map.name] = new_map
+
+    def get_map_names(self):
+        return list(self._maps.keys())
+
+    def get_map(self, map_name : str):
+        return self._maps[map_name]
 
     def print(self):
         for map in self._maps.values():

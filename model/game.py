@@ -22,6 +22,12 @@ class OWGame():
         self.load_characters()
         self.load_maps()
 
+        self.current_map_name = self._maps.get_map_names()[0]
+
+    @property
+    def current_map(self):
+        return self._maps.get_map(self.current_map_name)
+
     def load_characters(self):
 
         print("Loading characters...")

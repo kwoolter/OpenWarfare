@@ -1,5 +1,6 @@
 import cmd
 import model
+import view
 import utils
 
 class OWControllerCLI(cmd.Cmd):
@@ -24,6 +25,9 @@ class OWControllerCLI(cmd.Cmd):
             raise Exception("No game to print.")
 
         self.model.print()
+
+        text_view = view.OWMapView(self.model)
+        text_view.draw_map()
 
 
     def do_quit(self, args):
